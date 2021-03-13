@@ -74,10 +74,10 @@ class TestCard(unittest.TestCase):
         ### please note: normally unit test methods do not have return statements. But returning will allow for unit testing of your unit test, and allow you to check your answer with the autograder.  This is optional today.
 
         '''
-        card3 = cards.Card(3,13)
+        card3 = cards.Card(suit = 3,rank = 13)
         str3 = "King of Spades"
-        self.assertEqual(card3.__str__, str3)
-        return card3.__str__, str3
+        self.assertEqual(str(card3), str3)
+        return str(card3), "King of Spades"
     
     def test_q4(self):
         '''
@@ -92,8 +92,9 @@ class TestCard(unittest.TestCase):
 
         '''
         deck = cards.Deck()
-        self.assertEqual(len(deck), 52)
-        return len(deck), 52 
+        self.assertEqual(len(deck.cards), 52)
+        return len(deck.cards), 52
+ 
 
     def test_q5(self):
         '''
@@ -108,9 +109,8 @@ class TestCard(unittest.TestCase):
 
         '''
         deck = cards.Deck()
-        deck.deal_card()
-        self.assertIsInstance(deck, cards.Deck)
-        return deck, cards.Deck
+        self.assertIsInstance(deck.deal_card(), cards.Card)
+        return deck.deal_card(), cards.Card
     
     def test_q6(self):
         '''
@@ -129,8 +129,8 @@ class TestCard(unittest.TestCase):
         before_deal = len(deck.cards)
         deck.deal_card()
         after_deal = len(deck.cards)
-        self.assertEqual(before_deal-after_deal, 1)
-        return before_deal-after_deal, 1   
+        self.assertEqual(after_deal, before_deal - 1)
+        return after_deal, before_deal - 1   
     
 
     def test_q7(self):
@@ -147,12 +147,14 @@ class TestCard(unittest.TestCase):
 
         '''
         deck = cards.Deck()
+        before_deal = len(deck.cards)
         card = deck.deal_card()
-        no_replace = len(deck.cards)
+        after_deal = len(deck.cards)
         deck.replace_card(card)
-        replace = len (deck.cards)
-        self.assertEqual(replace-no_replace, 1)
-        return replace-no_replace, 1
+        after_replace = len(deck.cards)
+
+        self.assertEqual(after_deal + 1, after_replace, before_deal)
+        return after_deal + 1, after_replace, before_deal
     
     def test_q8(self):
         '''
@@ -172,8 +174,8 @@ class TestCard(unittest.TestCase):
         for card in deck.cards:
             deck.replace_card(card)
         after_replace = len(deck.cards)
-        self.assertEqual(before_replace - after_replace, 0)
-        return before_replace - after_replace, 0 
+        self.assertEqual(before_replace , after_replace)
+        return before_replace , after_replace
 
 
 
